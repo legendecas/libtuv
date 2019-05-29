@@ -168,6 +168,19 @@
 #define TEST_LIST_EXT_PROCESS(TE)
 #endif
 
+#if defined(TUV_TEST_FORK)
+#define TEST_LIST_EXT_FORK(TE) \
+  TE(fork_timer, 5000) \
+  TE(fork_socketpair, 5000) \
+  TE(fork_socketpair_started, 5000) \
+  TE(fork_signal_to_child, 5000) \
+  TE(fork_signal_to_child_closed, 5000) \
+  TE(fork_threadpool_queue_work_simple, 5000) \
+
+#else
+#define TEST_LIST_EXT_FORK(TE)
+#endif
+
 #if defined(__linux__)
 #define TEST_LIST_EXT(TE)                                                     \
   TE(condvar_1, 5000)                                                         \
@@ -184,7 +197,12 @@
   \
   TEST_LIST_EXT_PIPE(TE) \
   TEST_LIST_EXT_PROCESS(TE) \
-  TEST_LIST_EXT_SIGNAL(TE)
+  TEST_LIST_EXT_SIGNAL(TE) \
+  TEST_LIST_EXT_FORK(TE)
+
+#elif defined(__APPLE__)
+#define TEST_LIST_EXT(TE)                                                     \
+  TEST_LIST_EXT_FORK(TE)
 
 #elif defined(__TUV_RAW__)
 #define TEST_LIST_EXT(TE)                                                     \

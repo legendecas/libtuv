@@ -79,6 +79,12 @@ set(TEST_UNITFILES
       "${TEST_ROOT}/test_async.c"
     )
 
+if(TUV_TEST_FORK)
+      add_compile_definitions(TUV_TEST_FORK)
+      set(TEST_UNITFILES "${TEST_UNITFILES}"
+            "${TEST_ROOT}/test_fork.c")
+endif()
+
 # { TUV_CHANGES@20180803:
 #   Made signal build time configurable }
 if(TUV_FEATURE_PROCESS)
